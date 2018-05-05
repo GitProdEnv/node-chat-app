@@ -11,6 +11,7 @@ socket.on('connect', function () {
     //     from: 'Andrew',
     //     text: 'Yup, that works for me.'
     // });
+
 });
 
 socket.on('disconnect', function () {

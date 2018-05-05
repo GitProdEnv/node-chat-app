@@ -1,5 +1,21 @@
 var socket = io();
 
+function scrolltoBottom () {
+    // Selectors
+    var messages = jQuery('#messages');
+    var newMessage = messages.children('li:last-child');
+    // Heights
+    var clientHeight = messages.prop('clientHeight');
+    var scrollTop = messages.prop('scrollTop');
+    var scrollHeight = messages.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight(); // taking into account the padding aswell
+    var lastMessageHeight = newMessage.prev().innerHeight(); // second last list
+
+    if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+        messages.scrollTop(scrollHeight);
+    }
+}
+
 // Don't use ES6 since Safari or other browsers are not compatible
 // This is why tools like babeljs have gotten so popular. It let's you
 // transpile your ES6 code into ES5 code that can be run by older browsers.
@@ -28,6 +44,7 @@ socket.on('newMessage', function (message) {
     });
 
     jQuery('#messages').append(html);
+    scrolltoBottom();
     // var li = jQuery('<li></li>');
     // li.text(`${message.from} ${formattedTime}: ${message.text}`);
     //
@@ -45,6 +62,7 @@ socket.on('newLocationMessage', function (message) {
     });
 
     jQuery('#messages').append(html);
+    scrolltoBottom();
     // var li = jQuery('<li></li>');
     // var a = jQuery('<a target="_blank">My current location</a>');
     //
